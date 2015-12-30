@@ -18,8 +18,9 @@ $spore = \PHP_Spore\Spore::newFromArray([
             "form-data" => [
                 "categories"
             ],
-            "optional_params" => [
-                "limit", "page"
+            "params" => [
+                "limit" => [ "required" => true ],
+                "page"
             ]
         ]
     ]

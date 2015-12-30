@@ -70,12 +70,40 @@ namespace PHP_Spore
             return $params;
         }
 
+    /**
+     * Check data for required arguments
+     * @param array $method
+     * @param array $parameters
+     * @return bool
+     * @throws Spore_Exception
+     */
+        private function validateParameters(array $method, array $parameters)
+        {
+            if(isset($method["params"]) && !empty($method["params"])) {
+                foreach($method["params"] as $param => $opts) {
+                    if(is_integer($param) && is_string($opts)){
+                        $param = $opts;  $opts = null;
+                    }
+                    // Check for required params
+                    if($opts && isset($opts["required"])) {
+                        if(!isset($parameters["params"][$param])) {
+                            throw new Spore_Exception("Validation failed in requires parameter: " . $param);
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
         public function __call($name, $arguments)
         {
             if (!isset ($this->spec['methods'][$name])) {
                 throw new Spore_Exception('Invalid method: "' . $name . '"');
             }
 
+
+            $this->validateParameters($this->spec['methods'][$name], $arguments[0]);
             return $this->exec($this->spec['methods'][$name], $arguments[0]);
         }
     }
