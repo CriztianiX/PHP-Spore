@@ -30,7 +30,7 @@ namespace PHP_Spore
 
             switch($method) {
                 case "get":
-                    $request = Spore_Request::get($url)
+                    $request = Spore_Request::get($url, $arguments)
                         ->send();
                     break;
                 case "post":
