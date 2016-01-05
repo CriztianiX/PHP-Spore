@@ -1,6 +1,5 @@
 <?php
 use \PHP_Spore as PHP_Spore;
-use \PHP_Spore\Spore_Request;
 
 class SporeTest extends PHPUnit_Framework_TestCase
 {

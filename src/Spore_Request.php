@@ -35,16 +35,6 @@ namespace PHP_Spore {
             return $this->client->createRequest($this->method, $this->url, $this->args);
         }
 
-        public function setRequest($request)
-        {
-            $this->request = $request;
-        }
-
-        public function getRequest()
-        {
-            return $this->request;
-        }
-
         public function send()
         {
             $response = $this->client->send($this->request);
@@ -92,6 +82,21 @@ namespace PHP_Spore {
         public static function post(string $url, array $args = [])
         {
             return self::request("POST", $url, $args);
+        }
+
+    /**
+     * Set request
+     *
+     * @param $request
+     */
+        public function setRequest($request)
+        {
+            $this->request = $request;
+        }
+
+        public function getRequest()
+        {
+            return $this->request;
         }
     }
 }

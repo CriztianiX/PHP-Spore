@@ -96,7 +96,7 @@ namespace PHP_Spore
             return true;
         }
 
-        public function __call($name, $arguments)
+        public function __call($name, $arguments = [])
         {
             if (!isset ($this->spec['methods'][$name])) {
                 throw new Spore_Exception('Invalid method: "' . $name . '"');
