@@ -51,7 +51,8 @@ namespace PHP_Spore
      */
         private function getRequestUrl(array $method) : string
         {
-            return $this->spec["base_url"] . $method["path"];
+            $url = $method["override_url"] ?? $this->spec["base_url"];
+            return $url . $method["path"];
         }
     /**
      * @param array $params
