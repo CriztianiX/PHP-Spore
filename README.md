@@ -7,33 +7,33 @@ require_once("vendor/autoload.php");
 use PHP_Spore as PHP_Spore;
 
 $spore = \PHP_Spore\Spore::newFromArray([
-    "base_url" => "http://192.168.0.241:3434/api/v1",
-    "methods" => [
-        "users" => [
-            "path" => "/categories",
-            "method" => "GET"
-        ],
-        "discounts_filter" => [
-            "path" => "/discounts",
-            "method" => "POST",
-            "form-data" => [
-                "categories"
-            ],
-            "params" => [
-                "limit" => [ "required" => true ],
-                "page"
-            ]
-        ]
-    ]
+   "base_url" => "https://httpbin.org",
+   "methods" => [
+       "get" => [
+           "path" => "/get",
+           "method" => "GET"
+       ],
+       "query_params" => [
+           "path" => "/response-headers",
+           "method" => "GET",
+           "params" => [
+               "limit" => [ "required" => true ]
+           ]
+       ],
+       "post" => [
+           "path" => "/post",
+           "method" => "POST"
+       ]
+   ]
 ]);
-$response = $spore->discounts_filter([
+$response = $spore->post([
     "params" => [
-        "limit" => 1,
+        "limit" => 10,
         "page" => 1
     ],
     "form-data" => [
-        "categories" => [
-            1
+        "data" => [
+            1,2,3
         ]
     ]
 ]);

@@ -9,7 +9,7 @@ namespace PHP_Spore {
         protected $method;
         protected $url;
         protected $args;
-
+        protected $request;
     /**
      * Spore_Request constructor.
      * @param string $method
@@ -25,12 +25,29 @@ namespace PHP_Spore {
             $this->args = array_merge($args, [
                 'exceptions' => false
             ]);
+
+            $request = $this->createRequest();
+            $this->setRequest($request);
+        }
+
+        protected function createRequest()
+        {
+            return $this->client->createRequest($this->method, $this->url, $this->args);
+        }
+
+        public function setRequest($request)
+        {
+            $this->request = $request;
+        }
+
+        public function getRequest()
+        {
+            return $this->request;
         }
 
         public function send()
         {
-            $request = $this->client->createRequest($this->method, $this->url, $this->args);
-            $response = $this->client->send($request);
+            $response = $this->client->send($this->request);
             $code = $response->getStatusCode();
 
             if ($code == 200) {
