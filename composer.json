@@ -1,7 +1,7 @@
 {
   "name": "criztianix/php-spore2",
   "description": "SPORE, a generic ReST client",
-  "minimum-stability": "stable",
+  "type": "library",
   "license": "GNU",
   "authors": [
     {

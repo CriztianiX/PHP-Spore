@@ -78,7 +78,7 @@ namespace PHP_Spore
      * @return bool
      * @throws Spore_Exception
      */
-        private function validateParameters(array $method, array $parameters)
+        private function validateParameters(array $method, array $parameters = [])
         {
             if(isset($method["params"]) && !empty($method["params"])) {
                 foreach($method["params"] as $param => $opts) {
@@ -97,15 +97,15 @@ namespace PHP_Spore
             return true;
         }
 
-        public function __call($name, $arguments)
+        public function __call($name, $arguments = [])
         {
             if (!isset ($this->spec['methods'][$name])) {
                 throw new Spore_Exception('Invalid method: "' . $name . '"');
             }
 
-
-            $this->validateParameters($this->spec['methods'][$name], $arguments[0]);
-            return $this->exec($this->spec['methods'][$name], $arguments[0]);
+            $args =  $arguments[0] ?? [];
+            $this->validateParameters($this->spec['methods'][$name], $args);
+            return $this->exec($this->spec['methods'][$name], $args);
         }
     }
 }
