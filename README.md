@@ -1,7 +1,5 @@
 # PHP-Spore
 SPORE, a generic ReST client for PHP7
-
-# UNDER DEVELOPMENT
 ```php
 require_once("vendor/autoload.php");
 use PHP_Spore as PHP_Spore;
