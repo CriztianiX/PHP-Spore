@@ -41,15 +41,11 @@ namespace PHP_Spore {
             $code = $response->getStatusCode();
 
             if ($code == 200) {
-                $body = json_decode($response->getBody(), true);
+                $body = json_decode($response->getBody());
                 return $body;
             }
 
-            if ($code == 400 || $code == 500) {
-                return null;
-            }
-
-            throw new \Exception("Error Processing Request: " . $endpoint, 1);
+            throw new \Exception("Error (".$code.") processing request: " . $this->url, 1);
         }
     /**
      * @param string $method
