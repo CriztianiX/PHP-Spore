@@ -25,7 +25,9 @@ namespace PHP_Spore
         protected function exec(array $call, array $arguments)
         {
             $method = strtolower($call["method"] ?? "GET");
-            $url = $this->getRequestUrl($call);
+            $url = $this->getRequestUrl($call, $arguments);
+            var_dump($url);
+            die;
             $arguments = $this->getRequestParams($arguments);
 
             switch($method) {
@@ -49,10 +51,19 @@ namespace PHP_Spore
      * @param array $method
      * @return string
      */
-        private function getRequestUrl(array $method) : string
+        private function getRequestUrl(array $method, array $arguments = []) : string
         {
-            $url = $method["override_url"] ?? $this->spec["base_url"];
-            return $url . $method["path"];
+            $url = $method["override_url"] ?? $this->spec["base_url"] . $method["path"];
+            // Fill named params in url
+            if(isset($method["named-params"])){ 
+              foreach($method["named-params"] as $named) {
+                if(!isset($arguments["named-data"][$named])) {
+                  throw new Spore_Exception("Error Processing Request, cannot find named param: $named", 1);
+                }
+                $url = str_replace( ":$named", $arguments["named-data"][$named], $url);
+              }
+            }
+            return $url;
         }
     /**
      * @param array $params
