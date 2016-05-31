@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__ . '/Person.php');
 use PHP_Spore\Spore_Model;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 class SporeHydratingTests extends PHPUnit_Framework_TestCase
 {
@@ -46,6 +47,8 @@ class SporeHydratingTests extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->model = new Spore_Model(Person::class);
+
+        AnnotationRegistry::registerFile('../src/Spore_Property.php');
     }
 
     public function testMathWorks()
