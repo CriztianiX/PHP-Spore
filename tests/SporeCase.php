@@ -1,5 +1,5 @@
 <?php
-use \PHP_Spore as PHP_Spore;
+use \PHP_Spore;
 
 class SporeTest extends PHPUnit_Framework_TestCase
 {
