@@ -1,4 +1,9 @@
 <?php
+use Doctrine\Common\Annotations\AnnotationRegistry;
+
+require_once(__DIR__ . '/response/HTTPBinResponse.php');
+require_once(__DIR__ . '/response/HTTPBinResponseWithPerson.php');
+
 class SporeTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
@@ -8,7 +13,8 @@ class SporeTest extends PHPUnit_Framework_TestCase
             "methods" => [
                 "get" => [
                     "path" => "/get",
-                    "method" => "GET"
+                    "method" => "GET",
+                    "model" => HTTPBinResponse::class
                 ],
                 "query_params" => [
                     "path" => "/response-headers",
@@ -19,10 +25,16 @@ class SporeTest extends PHPUnit_Framework_TestCase
                 ],
                 "post" => [
                     "path" => "/post",
-                    "method" => "POST"
+                    "method" => "POST",
+                    "form-data" => [
+                        "name"
+                    ],
+                    "model" => HTTPBinResponseWithPerson::class
                 ]
             ]
         ]);
+
+        AnnotationRegistry::registerFile('../src/Spore_Property.php');
     }
 
     public function testQueryRequest()
@@ -37,13 +49,22 @@ class SporeTest extends PHPUnit_Framework_TestCase
 
     public function testPostRequest()
     {
-        $result = $this->spore->post();
+        $result = $this->spore->post(
+            [
+                "form-data" => [
+                    "name" => "Pata"
+                ]
+            ]
+        );
         $this->assertEquals($result->url, "https://httpbin.org/post");
+        $this->assertEquals("Pata", $result->json->name);
+        $this->assertEquals(Person::class, get_class($result->json));
     }
 
     public function testGetRequest()
     {
         $result = $this->spore->get();
+        $this->assertEquals($result->headers["Host"], "httpbin.org");
         $this->assertEquals($result->url, "https://httpbin.org/get");
     }
 }

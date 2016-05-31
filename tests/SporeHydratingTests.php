@@ -1,7 +1,8 @@
 <?php
-require_once(__DIR__ . '/Person.php');
 use PHP_Spore\Spore_Model;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+
+require_once(__DIR__ . '/response/Person.php');
 
 class SporeHydratingTests extends PHPUnit_Framework_TestCase
 {
