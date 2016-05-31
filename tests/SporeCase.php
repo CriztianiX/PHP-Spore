@@ -1,6 +1,4 @@
 <?php
-use \PHP_Spore as PHP_Spore;
-
 class SporeTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
@@ -34,18 +32,18 @@ class SporeTest extends PHPUnit_Framework_TestCase
                 "limit" => 10
             ]
         ]);
-        $this->assertEquals($result["limit"], "10");
+        $this->assertEquals($result->limit, "10");
     }
 
     public function testPostRequest()
     {
         $result = $this->spore->post();
-        $this->assertEquals($result["url"], "https://httpbin.org/post");
+        $this->assertEquals($result->url, "https://httpbin.org/post");
     }
 
     public function testGetRequest()
     {
         $result = $this->spore->get();
-        $this->assertEquals($result["url"], "https://httpbin.org/get");
+        $this->assertEquals($result->url, "https://httpbin.org/get");
     }
 }
