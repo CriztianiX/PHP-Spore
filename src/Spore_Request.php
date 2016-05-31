@@ -41,8 +41,7 @@ namespace PHP_Spore {
             $code = $response->getStatusCode();
 
             if ($code == 200) {
-                $body = json_decode($response->getBody(), true);
-                return $body;
+                return $response->getBody();
             }
 
             throw new \Exception("Error (".$code.") processing request: " . $this->url, 1);

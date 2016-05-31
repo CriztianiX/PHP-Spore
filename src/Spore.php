@@ -41,8 +41,11 @@ namespace PHP_Spore
                     throw new Spore_Exception('Invalid method: ' . $method, 1);
             }
 
-            return isset($call["model"]) ? 
-                (new Spore_Model($call["model"]))->hydrateFrom($request) : (object)$request;
+            $hasModel = isset($call["model"]);
+
+            $responseBody = json_decode($request, $hasModel);
+            return $hasModel ?
+                (new Spore_Model($call["model"]))->hydrateFrom($responseBody) : $responseBody;
         }
     /**
      * Returns the url for the request
