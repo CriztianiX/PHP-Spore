@@ -1,6 +1,8 @@
 <?php
 namespace PHP_Spore
 {
+    use Doctrine\Common\Annotations\AnnotationRegistry;
+
     class Spore
     {
         protected $spec;
@@ -19,6 +21,7 @@ namespace PHP_Spore
      */
         protected function __construct(array $spec)
         {
+            AnnotationRegistry::registerFile(__DIR__ . '/Spore_Property.php');
             $this->spec = $spec;
         }
 
