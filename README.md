@@ -48,3 +48,38 @@ $response = $spore->post([
     ]
 ]);
 ```
+
+Spore now support hydrate models from api response.
+```php
+$spec = [ 
+  "base_url" => "https://httpbin.org",
+  "methods" => [
+    "getCache" => [
+      "path" => "/cache",
+      "model" => "PHP_Spore\\Test\\Response\\Cache"
+    ]
+  ]
+]
+```
+
+and our cache model, look like this:
+
+```php
+<?php
+namespace PHP_Spore\Test\Response;
+
+use \PHP_Spore\Spore_Property;
+class Cache
+{
+    public $url;
+    /**
+     * @Spore_Property(class = "PHP_Spore\Test\Response\Headers")
+     */
+    public $headers;
+}
+
+class Headers
+{
+    public $Host;
+}
+```
