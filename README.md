@@ -2,9 +2,12 @@
 SPORE, a generic ReST client for PHP7
 ```php
 require_once("vendor/autoload.php");
-use PHP_Spore as PHP_Spore;
+use PHP_Spore\Spore;
+```
+Now, you can generate a spore object from an array
 
-$spore = \PHP_Spore\Spore::newFromArray([
+```php
+$spore = Spore::newFromArray([
    "base_url" => "https://httpbin.org",
    "methods" => [
        "get" => [
@@ -24,6 +27,15 @@ $spore = \PHP_Spore\Spore::newFromArray([
        ]
    ]
 ]);
+```
+
+or you can use a json file with the spec.
+```php
+$spore = Spore::newFromJson(__DIR__ . "spec.json");
+```
+
+Request and enpoint is very easy
+```php
 $response = $spore->post([
     "params" => [
         "limit" => 10,
