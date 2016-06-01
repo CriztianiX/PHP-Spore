@@ -1,11 +1,9 @@
 {
   "base_url" :  "https://httpbin.org",
   "methods" : {
-    "getMyIp": {
-      "path" : "/ip"
-    },
     "getCache": {
-      "path" : "/cache"
+      "path" : "/cache",
+      "model" : "PHP_Spore\\Test\\Response\\Cache"
     }
   }
 }
