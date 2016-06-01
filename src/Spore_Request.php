@@ -2,6 +2,7 @@
 
 namespace PHP_Spore {
     use \GuzzleHttp\Client as GuzzleHttpClient;
+    use PHP_Spore\Spore_Response;
 
     class Spore_Request
     {
@@ -40,11 +41,11 @@ namespace PHP_Spore {
             $response = $this->client->send($this->request);
             $code = $response->getStatusCode();
 
-            if ($code == 200) {
-                return $response->getBody();
+            if ($code != 200) {
+                throw new \Exception("Error (".$code.") processing request: " . $this->url, 1);
             }
 
-            throw new \Exception("Error (".$code.") processing request: " . $this->url, 1);
+            return new Spore_Response($response);
         }
     /**
      * @param string $method
@@ -66,6 +67,17 @@ namespace PHP_Spore {
         public static function get(string $url, array $args = [])
         {
             return self::request("GET", $url, $args);
+        }
+    /**
+     * Send put request
+     *
+     * @param string $url
+     * @param array $args
+     * @return Spore_Request
+     */
+        public static function put(string $url, array $args = [])
+        {
+            return self::request("PUT", $url, $args);
         }
     /**
      * Send post request

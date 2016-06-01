@@ -65,22 +65,26 @@ namespace PHP_Spore
 
             switch($method) {
                 case "get":
-                    $request = Spore_Request::get($url, $arguments)
+                    $response = Spore_Request::get($url, $arguments)
                         ->send();
                     break;
                 case "post":
-                    $request = Spore_Request::post($url, $arguments)
+                    $response = Spore_Request::post($url, $arguments)
+                        ->send();
+                    break;
+                case "put":
+                    $response = Spore_Request::put($url, $arguments)
                         ->send();
                     break;
                 default:
                     throw new Spore_Exception('Invalid method: ' . $method, 1);
             }
 
-            $hasModel = isset($call["model"]);
+            if(isset($call["model"])) {
+                return (new Spore_Model($call["model"]))->hydrateFrom($response->json());
+            }
 
-            $responseBody = json_decode($request, $hasModel);
-            return $hasModel ?
-                (new Spore_Model($call["model"]))->hydrateFrom($responseBody) : $responseBody;
+            return $response->object();
         }
     /**
      * Returns the url for the request
