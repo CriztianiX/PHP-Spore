@@ -1,0 +1,8 @@
+{
+  "base_url" :  "https://httpbin.org",
+  "methods" : {
+    "getMyIp": {
+      "path" : "/ip"
+    }
+  }
+}

@@ -33,8 +33,6 @@ class SporeTest extends PHPUnit_Framework_TestCase
                 ]
             ]
         ]);
-
-        AnnotationRegistry::registerFile('../src/Spore_Property.php');
     }
 
     public function testQueryRequest()

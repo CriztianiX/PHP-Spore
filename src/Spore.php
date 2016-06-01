@@ -7,6 +7,29 @@ namespace PHP_Spore
     {
         protected $spec;
     /**
+     * @param null $file
+     * @return Spore
+     * @throws Spore_Exception
+     */
+        public static function newFromJson($file = null)
+        {
+            if(!$file) {
+                throw new Spore_Exception("File not specified");
+            }
+
+            $fp = file_get_contents($file);
+            if (!$fp) {
+                throw new Spore_Exception('Unable to open file: ' . $file);
+            }
+
+            $arr = json_decode($fp, true);
+            if( json_last_error() != "JSON_ERROR_NONE" ) {
+                throw new Spore_Exception('Cannot decode file: ' . $file);
+            }
+
+            return self::newFromArray($arr);
+        }
+    /**
      * @param array $spec
      * @return Spore
      */
@@ -23,6 +46,15 @@ namespace PHP_Spore
         {
             AnnotationRegistry::registerFile(__DIR__ . '/Spore_Property.php');
             $this->spec = $spec;
+        }
+
+    /**
+     * Return loaded spec
+     * @return array
+     */
+        public function spec()
+        {
+            return $this->spec;
         }
 
         protected function exec(array $call, array $arguments)
