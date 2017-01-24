@@ -25,7 +25,9 @@ class Spore_Response
 
     public function json()
     {
-        return $this->response->json();
+      $res = json_decode($this->response->getBody(), true);
+
+      return $res;
     }
 
     private $response;

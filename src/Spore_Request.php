@@ -1,7 +1,7 @@
 <?php
 
 namespace PHP_Spore {
-    use \GuzzleHttp\Client as GuzzleHttpClient;
+    use GuzzleHttp\Client;
     use PHP_Spore\Spore_Response;
 
     class Spore_Request
@@ -20,33 +20,26 @@ namespace PHP_Spore {
      */
         protected function __construct(string $method, string $url, array $args = [])
         {
-            $this->client = new GuzzleHttpClient();
+            $this->client = new Client();
             $this->method = $method;
             $this->url = $url;
             $this->args = array_merge($args, [
                 'exceptions' => false
             ]);
-
-            $request = $this->createRequest();
-            $this->setRequest($request);
-        }
-
-        protected function createRequest()
-        {
-            return $this->client->createRequest($this->method, $this->url, $this->args);
         }
 
         public function send()
         {
-            $response = $this->client->send($this->request);
+            $response = $this->client->request($this->method, $this->url, $this->args);
             $code = $response->getStatusCode();
-
             if ($code != 200) {
                 throw new \Exception("Error (".$code.") processing request: " . $this->url, 1);
             }
 
             return new Spore_Response($response);
         }
+
+
     /**
      * @param string $method
      * @param string $endpoint
@@ -89,21 +82,6 @@ namespace PHP_Spore {
         public static function post(string $url, array $args = [])
         {
             return self::request("POST", $url, $args);
-        }
-
-    /**
-     * Set request
-     *
-     * @param $request
-     */
-        public function setRequest($request)
-        {
-            $this->request = $request;
-        }
-
-        public function getRequest()
-        {
-            return $this->request;
         }
     }
 }
