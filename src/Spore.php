@@ -138,7 +138,7 @@ namespace PHP_Spore
                         $param = $opts;  $opts = null;
                     }
                     // Check for required params
-                    if($opts && isset($opts["required"])) {
+                    if($opts && isset($opts["required"]) && $opts["required"] == true) {
                         if(!isset($parameters["params"][$param])) {
                             throw new Spore_Exception("Validation failed in requires parameter: " . $param);
                         }
